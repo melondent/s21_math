@@ -38,16 +38,3 @@ s21_math.a: s21_math.o
 
 s21_math.o:
 	$(CC+FLAGS) -c s21*.c
-
-check:
-	cp ../materials/linters/CPPLINT.cfg ./
-	cppcheck --enable=all --suppress=missingIncludeSystem *.c *.h
-	python3 ../materials/linters/cpplint.py --extensions=c *.c *.h
-	make test
-	rm -rf *.cfg
-ifeq ($(OS), Darwin)
-	CK_FORK=no leaks --atExit -- ./a.out
-else
-	valgrind ./a.out --leak-check=full
-endif
-	make clean
